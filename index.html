@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kanban Task Management</title>
-  </head>
-  <body >
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/index.js"></script>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Task Management</title>
+
+  <script>
+    let events = [];
+
+    rrweb.record({
+      emit(event) {
+        // push event into the events array
+        events.push(event);
+      },
+      'maskAllInputs': true,
+      'maskTextSelector': '#app',
+      'maskTextFn': (x)=>{console.log(x)}
+    });
+
+    replay = () => {
+      document.querySelector('#app').remove();
+      new rrwebPlayer({
+        target: document.body, // customizable root element
+        props: {
+          events,
+        },
+      });
+    }
+  </script>
+</head>
+
+
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
